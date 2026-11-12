@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alexandre Montrieux · Go-to-Market</title>
+<meta name="description" content="Alexandre Montrieux, application for Go-to-Market at Mindoo.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d0d0d; --ink2:#171717; --muted:#737373; --line:#e5e5e5; --soft:#f6f6f5; --bg:#fff;
+  --blue:#2f7df6; --purple:#8b5cf6; --yellow:#f5c400; --pink:#f472b6; --green:#34c26b; --orange:#fb8a3c;
+  --serif:"Newsreader","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --sans:"Inter Tight",Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:96px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:500;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0;text-align:left}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px}
+.topbar{position:fixed;top:0;left:0;right:0;height:3px;z-index:60;background:linear-gradient(90deg,var(--blue),var(--green),var(--yellow),var(--orange),var(--pink),var(--purple))}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+/* nav */
+header.nav{position:sticky;top:14px;z-index:50;margin-top:14px}
+.navin{display:flex;align-items:center;justify-content:space-between;gap:16px;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:16px;padding:8px 10px 8px 20px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.brand{font-family:var(--serif);font-size:22px;letter-spacing:-.03em;text-decoration:none;white-space:nowrap}
+.brand i{font-style:normal;color:var(--blue)}
+.links{display:flex;gap:22px}
+.links a{font-size:14px;text-decoration:none;color:var(--ink2)}
+.links a:hover{color:var(--blue)}
+.navr{display:flex;align-items:center;gap:10px}
+.lang{display:flex;border:1px solid var(--line);border-radius:10px;padding:2px}
+.lang button{font-size:12.5px;letter-spacing:.04em;padding:6px 9px;border-radius:8px;color:var(--muted)}
+.lang button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.btn{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;padding:11px 18px;border-radius:12px;text-decoration:none;border:1px solid var(--line);background:#fff;white-space:nowrap}
+.btn.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn:hover{transform:translateY(-1px)}
+.btn .ar{color:var(--blue)}
+
+/* hero */
+.hero{position:relative;text-align:center;padding:44px 0 56px;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:-120px 0 auto 0;height:520px;z-index:-1;background:radial-gradient(600px 300px at 50% 30%,#eaf1ff 0,transparent 70%),radial-gradient(420px 240px at 12% 60%,#eafbf0 0,transparent 70%),radial-gradient(420px 240px at 88% 70%,#fdeef6 0,transparent 70%)}
+.pill{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 14px 5px 5px;font-size:14px}
+.pill b{font-weight:600;font-size:11px;letter-spacing:.1em;background:#e3eeff;color:#1c5fd0;border-radius:999px;padding:4px 9px}
+.wink{font-size:13.5px;color:var(--muted);margin:0 0 26px}.wink a{color:var(--blue);text-decoration:none}
+.avatar{width:116px;height:116px;background:#eef3fb;border-radius:50%;object-fit:cover;display:block;margin:0 auto 22px;border:1px solid var(--line)}
+h1,h2,h3{font-family:var(--serif);font-weight:500;margin:0;color:#171717;overflow-wrap:anywhere}
+h1{font-size:clamp(40px,7vw,80px);line-height:.98;letter-spacing:-.04em;margin:26px auto 22px;max-width:17ch;text-wrap:balance}
+.hero p.sub{font-size:clamp(16px,1.6vw,18px);color:var(--muted);max-width:640px;margin:0 auto 28px;text-wrap:pretty}
+.cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.strip{margin-top:54px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* sections */
+section{padding:84px 0;border-top:1px solid var(--line)}
+section.alt{background:var(--soft)}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;gap:10px;align-items:center;margin-bottom:16px}
+.eyebrow span{color:var(--blue)}
+h2{font-size:clamp(34px,5vw,58px);line-height:1;letter-spacing:-.04em;max-width:17ch;text-wrap:balance}
+.lead{color:var(--muted);font-size:17px;max-width:620px;margin:18px 0 0;text-wrap:pretty}
+.hint{font-size:13px;color:var(--muted);margin-top:14px}
+.hint:before{content:"↳ ";color:var(--blue)}
+
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;display:flex;flex-direction:column;align-items:stretch;width:100%;transition:border-color .15s,box-shadow .15s}
+button.card:hover,.card.open{border-color:#c9c9c9;box-shadow:0 6px 24px rgba(0,0,0,.05)}
+.chead{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;gap:10px}
+.blob{width:38px;height:38px;border-radius:13px 13px 13px 4px;flex:none}
+.tag{font-size:11px;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:5px 10px;background:#efefef;color:#555;white-space:nowrap}
+.tag.b{background:#e3eeff;color:#1c5fd0}
+.card h3{font-size:25px;line-height:1.08;letter-spacing:-.03em;margin-bottom:10px}
+.card p{margin:0;color:var(--muted);font-size:15.5px}
+.more{font-size:14.5px;color:var(--blue);margin-top:16px;display:inline-flex;gap:6px;align-items:center}
+.more .ch{transition:transform .2s;display:inline-block}
+.open .more .ch{transform:rotate(90deg)}
+.detail{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s ease}
+.detail>div{overflow:hidden}
+.open .detail{grid-template-rows:1fr}
+.detail p{color:var(--ink2);padding-top:14px;margin-top:14px;border-top:1px solid var(--line)}
+.src{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.src span{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--ink2)}
+
+/* tabs */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:36px}
+.tabs button{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 16px;font-size:14.5px}
+.tabs button[aria-selected="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.panel{margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:28px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:36px}
+.panel h3{font-size:32px;letter-spacing:-.03em;line-height:1.05}
+.panel .role{font-size:14px;color:var(--blue);margin:10px 0 14px}
+.panel .intro{color:var(--muted);margin:0}
+.acc{border-top:1px solid var(--line)}
+.acc:last-child{border-bottom:1px solid var(--line)}
+.acc>button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:15px 2px;font-size:16.5px}
+.acc>button .pm{flex:none;width:24px;height:24px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--blue);transition:transform .2s;font-size:15px;line-height:1}
+.acc.open>button .pm{transform:rotate(45deg)}
+.acc .detail p{border:0;margin:0;padding:0 40px 16px 2px;color:var(--muted);font-size:15.5px}
+
+/* two col */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}
+.box{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px}
+.box h3{font-size:25px;letter-spacing:-.03em;margin-bottom:14px}
+.net{list-style:none;margin:0;padding:0}
+.net li{padding:14px 0;border-top:1px solid var(--line);display:flex;gap:12px}
+.net li i{flex:none;width:9px;height:9px;border-radius:3px;margin-top:8px}
+.net b{font-weight:600;display:block}
+.net small{font-size:14.5px;color:var(--muted)}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:36px}
+.chips button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 18px;font-size:15.5px}
+.chips button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.quote{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px 28px;font-family:var(--serif);font-size:clamp(21px,2.4vw,28px);line-height:1.2;letter-spacing:-.02em;max-width:820px;min-height:120px}
+
+/* edu */
+.edu{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.edu .yr{font-size:12px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:10px}
+.edu h3{font-size:22px;letter-spacing:-.02em;line-height:1.12;margin-bottom:6px}
+.edu p{margin:0;color:var(--muted);font-size:15px}
+.langs{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.langs span{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;font-size:14.5px}
+.langs span em{font-style:normal;color:var(--muted)}
+
+/* contact */
+.contact{text-align:center}
+.contact h2{margin:0 auto;max-width:15ch}
+.contact .lead{margin:18px auto 30px}
+.cl{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+footer{border-top:1px solid var(--line);padding:26px 0 40px;font-size:13px;color:var(--muted);text-align:center}
+
+@media (max-width:980px){.grid,.edu{grid-template-columns:1fr 1fr}.panel{grid-template-columns:1fr;gap:22px}.links{display:none}}
+@media (max-width:640px){.grid,.edu,.two{grid-template-columns:1fr}section{padding:60px 0}.navin{padding-left:14px}.brand{font-size:19px}.navr .btn{display:none}.panel{padding:20px}.hero{padding-top:52px}}
+@media (max-width:360px){.wrap{padding:0 14px}.brand{font-size:16px}.lang button{padding:6px 7px}.navin{gap:8px;padding-left:12px}}
+.quote.all{font-family:var(--sans);font-size:14.5px;letter-spacing:0;line-height:1.45;max-width:none}.quote.all p{margin:0 0 8px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media print{header.nav,.topbar,.tabs,.hint,.more,.cta,.chips,.wink,.acc .pm{display:none!important}.panel{margin-top:10px}.detail{grid-template-rows:1fr!important}section{padding:28px 0}.card,.panel,.box{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+<header class="nav"><div class="wrap"><div class="navin">
+  <a class="brand" href="#top">alexandre<i>.</i>montrieux</a>
+  <nav class="links" id="links" aria-label="Sections"></nav>
+  <div class="navr">
+    <div class="lang" role="group" aria-label="Language">
+      <button data-l="en">EN</button><button data-l="nl">NL</button><button data-l="fr">FR</button>
+    </div>
+    <a class="btn dark" href="#contact" id="navcta"></a>
+  </div>
+</div></div></header>
+<main id="app"></main>
+<footer><div class="wrap" id="foot"></div></footer>
+
+<script>
+var PHOTO="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAQDAwMDAgQDAwMEBAQFBgoGBgUFBgwICQcKDgwPDg4MDQ0PERYTDxAVEQ0NExoTFRcYGRkZDxIbHRsYHRYYGRj/2wBDAQQEBAYFBgsGBgsYEA0QGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBj/wAARCAFoAWgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD7+ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo7UUUAFFIGBqN5441yzYGcUAS0maxtV8TaNolmbnU7+G1UAsPOkVM/maxF+KfgeSB3TxHp++NQxj85c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";
+var COL=["var(--blue)","var(--purple)","var(--yellow)","var(--pink)","var(--green)","var(--orange)"];
+var MAIL="alexandre.montrieux@gmail.com", TEL="+32 471 423 752", LI="https://www.linkedin.com/in/alexandre-montrieux";
+
+var C={
+en:{
+ title:"Alexandre Montrieux · Go-to-Market",
+ nav:["The fit","Experience","AI first","Healthcare","How I work"], cta:"Let's talk",
+ pillb:"APPLICATION", pill:"Go-to-Market at Mindoo", wink:"Does this layout look familiar? It's inspired by",
+ h1:"Hands-on go-to-market to make AI land in hospitals.",
+ sub:"I led go-to-market at an AI startup for six months, alongside three years of data & AI consulting at AE. Since 2026 I have also been studying healthcare management. I would like to help Mindoo bring its agents into more hospitals.",
+ cta2:"See the fit", strip:"Brussels · Dutch native · English fluent · French in progress",
+ more:"Show the evidence", hint:"Click a card to see the evidence behind it.",
+ fit:{eye:"The fit", h:"What the role asks, and where I have done it.", lead:"I asked your recruitment agent what this role needs. Each card below is one of its answers, with my experience behind it.",
+  cards:[
+  {tag:"0 to 1",h:"Building a commercial engine",p:"I led go-to-market at Scribewave for six months and helped build its AI-first GTM engine.",d:"I did the prospecting, cold outreach, demos, follow-up and customer check-ins myself. I also built the automation behind it, with ICP-driven prospecting, email drafting and follow-up, all linked to the CRM.",s:["Scribewave"]},
+  {tag:"Complex tech",h:"Selling AI to people who need to trust it",p:"I did presales at AE and demos at Scribewave. In both cases the buyer had to trust the technology first.",d:"At AE I led the set-up of a new data & AI strategy offering and pitched it to prospects and internal stakeholders, and adjusted the message based on their reactions. It is now sold across multiple engagements. My client work includes regulated settings such as insurance and a quality management system for a new chemical plant.",s:["AE","AG Insurance","INEOS"]},
+  {tag:"Stakeholders",h:"From operational teams to the executive committee",p:"I am used to talking with executives, IT and operational teams, sometimes on the same day.",d:"I co-organised a roundtable for 20 high-priority prospects on developing and executing an AI strategy. In the management team of AE's Data & AI hive I translate direction from higher management to my own team. At Scribewave I called and emailed companies until I reached the right stakeholder.",s:["AE roundtable","Hive management","Scribewave"]},
+  {tag:"Feedback to strategy",h:"Turning market feedback into a playbook",p:"I regularly sparred with Scribewave's founder about how the market reacted and what that meant for us.",d:"We discussed which messages worked and where new opportunities were showing up. I learned to finish the operational work and still make time for improvements to the go-to-market engine.",s:["Scribewave"]},
+  {tag:"Autonomy",h:"Working independently, hands on",p:"At Scribewave I had a lot of freedom and I liked that.",d:"I worked directly with the founder and decided myself how to spend my time. Outside of work I build my own tools, such as an apartment-search scraper and a productivity hub that picks up actions on its own. The agile, hands-on way of working in a startup gave me energy.",s:["Scribewave","Side projects"]},
+  {tag:"Healthcare",h:"Learning healthcare from close by",p:"I study healthcare management and my partner is a doctor.",d:"In 2026 I started the master in Management and Policy in Healthcare at KU Leuven, alongside my job. My partner is a doctor, so I hear a lot at home about the daily pressure on clinical teams. My first engagement in a care context was a data platform for Hospital Logistics. I have not sold into hospitals yet.",s:["KU Leuven","Hospital Logistics"]}
+ ]},
+ exp:{eye:"Experience", h:"Where I learned it.", lead:"Pick a chapter and open the lines that interest you.",
+  tabs:[
+  {t:"Scribewave",h:"Scribewave",role:"Go-to-Market Lead (freelance) · Dec 2025 to May 2026",intro:"Belgian AI transcription startup. Six months leading go-to-market, alongside my job at AE.",items:[
+   ["Built an AI-first GTM engine","Automated ICP-driven prospecting, drafting and following up on emails, and integrated the communication flow with our CRM system."],
+   ["Presentations and demos","Presented and demoed the product to individual prospects and to groups of prospects."],
+   ["Cold outreach to the right stakeholder","Cold-emailed and called companies to reach the person inside the organisation who owned the problem."],
+   ["Strategic sparring with the founder","Regular sessions on how the market was reacting to certain messages, what this could imply for Scribewave and where opportunities might be."],
+   ["Balancing operations and improvements","Getting the operational work done (contacting clients, setting up demos, sending reminders, checking in on customer satisfaction) while investing time in the right improvements to the engine."],
+   ["What it did for me","I found this agile and hands-on way of working very interesting and energising. It is the main reason I am applying for this role."]]},
+  {t:"AE · presales & clients",h:"AE",role:"Consultant Data & AI · Sep 2023 to now",intro:"Belgian data & AI consultancy. Strategy and analysis roles for clients, with a growing share of presales and client contact.",items:[
+   ["A new client offering, from idea to sold","Led the set-up of AE's data & AI strategy offering. I pitched it to prospects and to internal stakeholders to test and adjust the message. It is now successfully sold across multiple engagements."],
+   ["Roundtable for 20 high-priority prospects","Co-organised a roundtable event on developing and executing an AI strategy within an organisation."],
+   ["Company podcast on Responsible AI","Took part in AE's company podcast, on the topic of Responsible AI."],
+   ["Connecting personally with clients","In every engagement I put a lot of emphasis on connecting personally with the client. It builds openness and credibility."],
+   ["Client engagements","AI analyst, AI strategist, data governance assessor and process analyst for clients including AG Insurance, INEOS, Jan De Nul, D'Ieteren, COPRO and Hospital Logistics."]]},
+  {t:"AE · hive management",h:"AE Data & AI hive",role:"Learning & Development and Bench Manager · management team · Sep 2025 to now",intro:"More than a year in active management of a 60-people branch, where I coordinate knowledge innovation and manage bench capacity.",items:[
+   ["Working across levels of strategy","Taking strategic direction from higher management and translating it for my own team."],
+   ["Weighing the human impact","Evaluating what a new initiative or strategic decision means for the people involved, and adjusting the communication accordingly."],
+   ["Clear expectations, regular feedback","Communicating expectations to peers, and giving and receiving feedback on a recurring basis."],
+   ["Jumping in","Showing flexibility and stepping in when colleagues need help."]]},
+  {t:"AFC",h:"Academics For Companies",role:"Board member, Technology Manager, Quality Supervisor · 2020 to 2025",intro:"A student-led organisation with a six-figure revenue that connects academia and business.",items:[
+   ["Board of Directors","Three years on the board of the organisation."],
+   ["Technology team","Led the technology team, covering data, GDPR and process optimisation."],
+   ["Quality system","Implemented an ISO-based quality system."]]}
+ ]},
+ ai:{eye:"AI first", h:"I run my own work on AI.", lead:"Personal projects I build to solve my own problems. I am pragmatic and I reach for AI first, and these projects show how.",
+  live:"Built", wip:"In progress", more:"More",
+  cards:[
+  {h:"Apartment search app",p:"Scrapes real-estate websites three times a day and sends me alerts by email.",d:"I built it for my own apartment search, so I no longer have to check the websites myself.",w:0},
+  {h:"Dummy hospital data warehouse",p:"A practice hospital data warehouse to learn healthcare terminology while advancing my technical skills.",d:"By modelling the data I learn how a hospital describes its patients, stays and care activities.",w:1},
+  {h:"Meeting brain",p:"Consolidates and improves the context from all my meeting notes.",d:"Meetings get transcribed, cleaned and filed into a searchable knowledge base. Decisions and action points stay retrievable weeks later.",w:0},
+  {h:"Productivity hub",p:"Collects actions from my meeting notes and other sources on one kanban board, and picks some of them up by itself.",d:"The hub retrieves actions, consolidates them and starts on the ones it can do automatically, such as creating presentations or drafting messages.",w:0}
+ ]},
+ hc:{eye:"Healthcare", h:"Getting close to care.", lead:"I am new to selling into hospitals, so I am learning the sector in several ways.",
+  whyh:"Why healthcare", neth:"Where you can find me",
+  why:[
+   ["Master in healthcare management","Master in Management and Policy in Healthcare at KU Leuven, started in 2026 alongside my job. I want to understand how care is organised, financed and governed."],
+   ["A doctor at home","My partner is a doctor. Our conversations about the operational reality inside hospitals are what started this pivot."],
+   ["Hospital Logistics","My first engagement in a care context: a new data platform and reporting environment for a healthcare logistics provider."],
+   ["Dummy hospital data warehouse","A personal project, in progress, to learn healthcare terminology hands on."]],
+  net:[
+   ["Vlerick Alumni Clubs","Currently in conversation to join the steering committee of the Vlerick Healthcare Club."],
+   ["Wintercircus events","Tech and startup events in Ghent."],
+   ["Bits in Bio","Community for people who build software in biotech."]]},
+ how:{eye:"How I work", h:"What it is like to work with me.", lead:"Pick a trait to see what I mean by it.",
+  chips:[
+   ["Hands-on","I like to get a first version working quickly. At Scribewave I did the calls, the demos and the automation myself."],
+   ["Close to the client","In my client engagements I put a lot of emphasis on connecting personally with the client, because that builds openness and credibility. So I am a big fan of your policy of working one day per week at the hospital."],
+   ["Big-time team player","I work best in a team. When a colleague needs help, I jump in."],
+   ["Pragmatic","I start with the simplest thing that works and improve it once people use it."],
+   ["Positive mindset","Cold outreach means a lot of emails and calls that go unanswered. I stay positive and keep going."],
+   ["Strong communication","I have co-hosted a roundtable, spoken on a podcast, given demos to groups of prospects and pitched to management. I adapt the message to who is in the room."],
+   ["Takes direct feedback","I prefer direct feedback and I use it. In my management role I give and receive feedback on a recurring basis."],
+   ["Critical mindset","I question messages, numbers and my own assumptions. The sparring sessions with Scribewave's founder were good practice for that."]]},
+ edu:{eye:"Education & languages", h:"Background.",
+  items:[["2026 to 2028 · ongoing","Master in Management and Policy in Healthcare","KU Leuven, alongside my job."],["2022 to 2023","Master in Business Analytics & AI","Vlerick Business School."],["2017 to 2022","Master & Bachelor in Business Engineering","KU Leuven. Major Data Science, minor People & Organisations."]],
+  langs:[["Dutch","native"],["English","fluent"],["French","basic, actively improving since my move to Brussels"]]},
+ con:{h:"Let's have a conversation.", lead:"Your agent told me a short conversation says more than a CV does. I agree, and I would be glad to have one.", li:"LinkedIn"},
+ foot:"Alexandre Montrieux · November 2026 · A personal application page, not affiliated with Mindoo. Made by a human, augmented with AI."
+},
+nl:{
+ title:"Alexandre Montrieux · Go-to-Market",
+ nav:["De match","Ervaring","AI first","Zorg","Hoe ik werk"], cta:"Laten we praten",
+ pillb:"SOLLICITATIE", pill:"Go-to-Market bij Mindoo", wink:"Komt deze lay-out bekend voor? Ze is geïnspireerd op",
+ h1:"Hands-on go-to-market om AI te laten landen in ziekenhuizen.",
+ sub:"Ik leidde zes maanden de go-to-market van een AI-startup, naast drie jaar data- & AI-consulting bij AE. Sinds 2026 studeer ik ook zorgmanagement. Ik wil Mindoo helpen om zijn agents in meer ziekenhuizen te krijgen.",
+ cta2:"Bekijk de match", strip:"Brussel · Nederlands moedertaal · Engels vlot · Frans in opbouw",
+ more:"Toon de onderbouwing", hint:"Klik op een kaart voor de onderbouwing.",
+ fit:{eye:"De match", h:"Wat de rol vraagt, en waar ik het al deed.", lead:"Ik vroeg jullie recruitment agent wat deze rol nodig heeft. Elke kaart hieronder is een van zijn antwoorden, met mijn ervaring erachter.",
+  cards:[
+  {tag:"0 naar 1",h:"Een commerciële motor bouwen",p:"Ik leidde zes maanden de go-to-market bij Scribewave en bouwde mee aan de AI-first GTM-engine.",d:"Prospectie, cold outreach, demo's, opvolging en check-ins bij klanten deed ik zelf. Ik bouwde ook de automatisering erachter, met ICP-gedreven prospectie en het opstellen en opvolgen van e-mails, gekoppeld aan het CRM.",s:["Scribewave"]},
+  {tag:"Complexe tech",h:"AI verkopen aan wie het moet vertrouwen",p:"Ik deed presales bij AE en demo's bij Scribewave. In beide gevallen moest de koper eerst de technologie vertrouwen.",d:"Bij AE leidde ik de opzet van een nieuw aanbod rond data- & AI-strategie en pitchte ik het bij prospecten en interne stakeholders, en stuurde ik de boodschap bij op basis van hun reacties. Het wordt nu verkocht in meerdere opdrachten. Mijn klantenwerk omvat gereguleerde omgevingen zoals verzekeringen en een kwaliteitsmanagementsysteem voor een nieuwe chemische fabriek.",s:["AE","AG Insurance","INEOS"]},
+  {tag:"Stakeholders",h:"Van de werkvloer tot het directiecomité",p:"Ik ben het gewoon om met directie, IT en operationele teams te praten, soms op dezelfde dag.",d:"Ik organiseerde mee een roundtable voor 20 prioritaire prospecten over het ontwikkelen en uitvoeren van een AI-strategie. In het managementteam van de Data & AI-hive van AE vertaal ik de richting van het hoger management naar mijn eigen team. Bij Scribewave belde en mailde ik bedrijven tot ik bij de juiste stakeholder uitkwam.",s:["AE roundtable","Hive-management","Scribewave"]},
+  {tag:"Feedback naar strategie",h:"Van marktfeedback naar playbook",p:"Ik sparde geregeld met de founder van Scribewave over hoe de markt reageerde en wat dat voor ons betekende.",d:"We bespraken welke boodschappen werkten en waar nieuwe opportuniteiten opdoken. Ik leerde het operationele werk afwerken en toch tijd maken voor verbeteringen aan de go-to-market-engine.",s:["Scribewave"]},
+  {tag:"Autonomie",h:"Zelfstandig werken, hands-on",p:"Bij Scribewave kreeg ik veel vrijheid en dat beviel me.",d:"Ik werkte rechtstreeks met de founder en bepaalde zelf waar ik mijn tijd aan besteedde. Buiten het werk bouw ik mijn eigen tools, zoals een scraper voor mijn appartementenzoektocht en een productiviteitshub die zelf acties oppikt. De agile, hands-on manier van werken in een startup gaf me energie.",s:["Scribewave","Eigen projecten"]},
+  {tag:"Zorg",h:"De zorg van dichtbij leren kennen",p:"Ik studeer zorgmanagement en mijn partner is arts.",d:"In 2026 startte ik naast mijn job de master Management en Beleid in de Gezondheidszorg aan de KU Leuven. Mijn partner is arts, dus ik hoor thuis veel over de dagelijkse druk op klinische teams. Mijn eerste opdracht in een zorgcontext was een dataplatform voor Hospital Logistics. Aan ziekenhuizen verkocht ik nog niet.",s:["KU Leuven","Hospital Logistics"]}
+ ]},
+ exp:{eye:"Ervaring", h:"Waar ik het leerde.", lead:"Kies een hoofdstuk en open de lijnen die je interesseren.",
+  tabs:[
+  {t:"Scribewave",h:"Scribewave",role:"Go-to-Market Lead (freelance) · dec 2025 tot mei 2026",intro:"Belgische AI-startup in transcriptie. Zes maanden go-to-market geleid, naast mijn job bij AE.",items:[
+   ["Een AI-first GTM-engine gebouwd","ICP-gedreven prospectie geautomatiseerd, e-mails opstellen en opvolgen, en de communicatieflow geïntegreerd met ons CRM-systeem."],
+   ["Presentaties en demo's","Het product gepresenteerd en gedemonstreerd aan individuele prospecten en aan groepen prospecten."],
+   ["Cold outreach tot bij de juiste stakeholder","Bedrijven benaderd met cold e-mails en cold calls om de persoon te bereiken die binnen de organisatie eigenaar was van het probleem."],
+   ["Strategisch sparren met de founder","Geregelde sessies over hoe de markt op bepaalde boodschappen reageerde, wat dat kon betekenen voor Scribewave en waar opportuniteiten lagen."],
+   ["Operaties en verbeteringen combineren","Het operationele werk afwerken (klanten contacteren, demo's opzetten, herinneringen sturen, klanttevredenheid opvolgen) en tegelijk tijd investeren in de juiste verbeteringen aan de engine."],
+   ["Wat het met mij deed","Ik vond deze agile en hands-on manier van werken heel interessant en ze gaf me energie. Het is de voornaamste reden waarom ik voor deze rol solliciteer."]]},
+  {t:"AE · presales & klanten",h:"AE",role:"Consultant Data & AI · sep 2023 tot heden",intro:"Belgisch adviesbureau in data & AI. Strategie- en analyserollen bij klanten, met een groeiend aandeel presales en klantencontact.",items:[
+   ["Een nieuw klantenaanbod, van idee tot verkocht","De opzet geleid van het aanbod rond data- & AI-strategie van AE. Ik pitchte het bij prospecten en interne stakeholders om de boodschap te testen en bij te sturen. Het wordt nu met succes verkocht in meerdere opdrachten."],
+   ["Roundtable voor 20 prioritaire prospecten","Mee een roundtable georganiseerd over het ontwikkelen en uitvoeren van een AI-strategie binnen een organisatie."],
+   ["Bedrijfspodcast over Responsible AI","Deelgenomen aan de podcast van AE, over het thema Responsible AI."],
+   ["Een persoonlijke band met klanten","In elke opdracht hecht ik veel belang aan een persoonlijke band met de klant. Dat zorgt voor openheid en geloofwaardigheid."],
+   ["Klantenopdrachten","AI-analist, AI-strateeg, assessor datagovernance en procesanalist voor klanten als AG Insurance, INEOS, Jan De Nul, D'Ieteren, COPRO en Hospital Logistics."]]},
+  {t:"AE · hive-management",h:"AE Data & AI-hive",role:"Learning & Development en Bench Manager · managementteam · sep 2025 tot heden",intro:"Meer dan een jaar actief in het management van een branch van 60 mensen, waar ik kennisinnovatie coördineer en de benchcapaciteit beheer.",items:[
+   ["Werken over strategische niveaus heen","Strategische richting van het hoger management opnemen en vertalen naar mijn eigen team."],
+   ["De menselijke impact inschatten","Evalueren wat een nieuw initiatief of een strategische beslissing betekent voor de betrokken mensen, en de communicatie daarop afstemmen."],
+   ["Duidelijke verwachtingen, geregelde feedback","Verwachtingen communiceren naar peers, en op vaste momenten feedback geven en krijgen."],
+   ["Inspringen","Flexibel zijn en bijspringen wanneer collega's hulp nodig hebben."]]},
+  {t:"AFC",h:"Academics For Companies",role:"Bestuurslid, Technology Manager, Quality Supervisor · 2020 tot 2025",intro:"Een door studenten geleide organisatie met een omzet van zes cijfers, die de academische wereld en bedrijven verbindt.",items:[
+   ["Raad van bestuur","Drie jaar in het bestuur van de organisatie."],
+   ["Technologieteam","Het technologieteam geleid: data, GDPR en procesoptimalisatie."],
+   ["Kwaliteitssysteem","Een kwaliteitssysteem op basis van ISO ingevoerd."]]}
+ ]},
+ ai:{eye:"AI first", h:"Mijn eigen werk draait op AI.", lead:"Persoonlijke projecten die ik bouw om mijn eigen problemen op te lossen. Ik ben pragmatisch en grijp eerst naar AI, en dat zie je in deze projecten.",
+  live:"Gebouwd", wip:"In opbouw", more:"Meer",
+  cards:[
+  {h:"App voor mijn appartementenzoektocht",p:"Scrapet drie keer per dag vastgoedwebsites en stuurt me meldingen via e-mail.",d:"Ik bouwde ze voor mijn eigen zoektocht, zodat ik de websites niet meer zelf moet nakijken.",w:0},
+  {h:"Dummy datawarehouse voor een ziekenhuis",p:"Een oefen-datawarehouse voor een ziekenhuis om zorgterminologie te leren en tegelijk technisch te groeien.",d:"Door de data te modelleren leer ik hoe een ziekenhuis zijn patiënten, opnames en zorgactiviteiten beschrijft.",w:1},
+  {h:"Meetingbrain",p:"Consolideert en verbetert de context uit al mijn meetingnotities.",d:"Meetings worden getranscribeerd, opgeschoond en opgeslagen in een doorzoekbare kennisbank. Beslissingen en actiepunten blijven weken later terug te vinden.",w:0},
+  {h:"Productiviteitshub",p:"Verzamelt acties uit mijn meetingnotities en andere bronnen op één kanbanbord en pikt er zelf een deel van op.",d:"De hub haalt acties op, consolideert ze en begint aan wat automatisch kan, zoals presentaties maken of berichten opstellen.",w:0}
+ ]},
+ hc:{eye:"Zorg", h:"Dichter bij de zorg.", lead:"Verkopen aan ziekenhuizen is nieuw voor mij, dus leer ik de sector op verschillende manieren kennen.",
+  whyh:"Waarom zorg", neth:"Waar je me tegenkomt",
+  why:[
+   ["Master in zorgmanagement","Master Management en Beleid in de Gezondheidszorg aan de KU Leuven, gestart in 2026 naast mijn job. Ik wil begrijpen hoe de zorg georganiseerd, gefinancierd en bestuurd wordt."],
+   ["Een arts in huis","Mijn partner is arts. Onze gesprekken over de operationele realiteit in ziekenhuizen hebben deze koerswijziging in gang gezet."],
+   ["Hospital Logistics","Mijn eerste opdracht in een zorgcontext: een nieuw dataplatform en een rapporteringsomgeving voor een zorglogistieke dienstverlener."],
+   ["Dummy datawarehouse voor een ziekenhuis","Een persoonlijk project, in opbouw, om zorgterminologie hands-on te leren."]],
+  net:[
+   ["Vlerick Alumni Clubs","Momenteel in gesprek om in de stuurgroep van de Vlerick Healthcare Club te zetelen."],
+   ["Wintercircus-events","Tech- en startup-events in Gent."],
+   ["Bits in Bio","Community voor mensen die software bouwen in biotech."]]},
+ how:{eye:"Hoe ik werk", h:"Hoe het is om met mij te werken.", lead:"Kies een eigenschap om te zien wat ik ermee bedoel.",
+  chips:[
+   ["Hands-on","Ik heb graag snel een eerste versie die werkt. Bij Scribewave deed ik de calls, de demo's en de automatisering zelf."],
+   ["Dicht bij de klant","In mijn klantenopdrachten hecht ik veel belang aan een persoonlijke band met de klant, want dat zorgt voor openheid en geloofwaardigheid. Ik ben dan ook een grote fan van jullie beleid om één dag per week in het ziekenhuis te werken."],
+   ["Echte teamspeler","Ik werk het best in een team. Als een collega hulp nodig heeft, spring ik bij."],
+   ["Pragmatisch","Ik begin met het eenvoudigste dat werkt en verbeter het zodra mensen het gebruiken."],
+   ["Positieve mindset","Bij cold outreach blijven veel mails en telefoontjes onbeantwoord. Ik blijf positief en ga door."],
+   ["Sterke communicatie","Ik organiseerde mee een roundtable, sprak in een podcast, gaf demo's aan groepen prospecten en pitchte voor het management. Ik stem de boodschap af op wie er in de kamer zit."],
+   ["Kan tegen directe feedback","Ik krijg graag directe feedback en ik doe er iets mee. In mijn managementrol geef en krijg ik op vaste momenten feedback."],
+   ["Kritische blik","Ik stel boodschappen, cijfers en mijn eigen aannames in vraag. De sparringsessies met de founder van Scribewave waren daar een goede oefening voor."]]},
+ edu:{eye:"Opleiding & talen", h:"Achtergrond.",
+  items:[["2026 tot 2028 · lopend","Master Management en Beleid in de Gezondheidszorg","KU Leuven, naast mijn job."],["2022 tot 2023","Master Business Analytics & AI","Vlerick Business School."],["2017 tot 2022","Master & Bachelor Handelsingenieur","KU Leuven. Major Data Science, minor Mensen & Organisaties."]],
+  langs:[["Nederlands","moedertaal"],["Engels","vlot"],["Frans","basis, ik werk er actief aan sinds mijn verhuis naar Brussel"]]},
+ con:{h:"Laten we een gesprek voeren.", lead:"Jullie agent zei me dat een kort gesprek meer vertelt dan een cv. Daar ben ik het mee eens, en ik ga dat gesprek graag aan.", li:"LinkedIn"},
+ foot:"Alexandre Montrieux · november 2026 · Een persoonlijke sollicitatiepagina, niet verbonden aan Mindoo. Gemaakt door een mens, versterkt met AI."
+},
+fr:{
+ title:"Alexandre Montrieux · Go-to-Market",
+ nav:["L'adéquation","Expérience","AI first","Santé","Ma façon de travailler"], cta:"Parlons-en",
+ pillb:"CANDIDATURE", pill:"Go-to-Market chez Mindoo", wink:"Cette mise en page vous dit quelque chose ? Elle est inspirée de",
+ h1:"Un go-to-market de terrain pour faire atterrir l'IA dans les hôpitaux.",
+ sub:"J'ai dirigé pendant six mois le go-to-market d'une startup d'IA, à côté de trois ans de conseil en data & IA chez AE. Depuis 2026, j'étudie aussi le management des soins de santé. J'aimerais aider Mindoo à amener ses agents dans plus d'hôpitaux.",
+ cta2:"Voir l'adéquation", strip:"Bruxelles · Néerlandais langue maternelle · Anglais courant · Français en progrès",
+ more:"Voir les preuves", hint:"Cliquez sur une carte pour voir ce qui l'appuie.",
+ fit:{eye:"L'adéquation", h:"Ce que le rôle demande, et où je l'ai déjà fait.", lead:"J'ai demandé à votre agent de recrutement ce que ce rôle exige. Chaque carte reprend l'une de ses réponses, avec mon expérience à l'appui.",
+  cards:[
+  {tag:"De 0 à 1",h:"Construire un moteur commercial",p:"J'ai dirigé le go-to-market chez Scribewave pendant six mois et j'ai aidé à construire son moteur GTM AI-first.",d:"Je faisais moi-même la prospection, le cold outreach, les démos, le suivi et les points de satisfaction client. J'ai aussi construit l'automatisation derrière, avec une prospection guidée par l'ICP et la rédaction et la relance d'e-mails, le tout relié au CRM.",s:["Scribewave"]},
+  {tag:"Tech complexe",h:"Vendre l'IA à ceux qui doivent lui faire confiance",p:"J'ai fait de l'avant-vente chez AE et des démos chez Scribewave. Dans les deux cas, l'acheteur devait d'abord faire confiance à la technologie.",d:"Chez AE, j'ai piloté la mise en place d'une nouvelle offre de stratégie data & IA et je l'ai présentée à des prospects et à des parties prenantes internes, et j'ai ajusté le message selon leurs réactions. Elle est aujourd'hui vendue dans plusieurs missions. Mes missions couvrent des environnements régulés comme l'assurance, ainsi qu'un système de management de la qualité pour une nouvelle usine chimique.",s:["AE","AG Insurance","INEOS"]},
+  {tag:"Parties prenantes",h:"Du terrain au comité de direction",p:"J'ai l'habitude de parler avec la direction, l'IT et les équipes opérationnelles, parfois dans la même journée.",d:"J'ai co-organisé une table ronde pour 20 prospects prioritaires sur l'élaboration et l'exécution d'une stratégie IA. Au sein de l'équipe de management du hive Data & IA d'AE, je traduis les orientations de la direction pour ma propre équipe. Chez Scribewave, j'ai appelé et écrit aux entreprises jusqu'à trouver le bon interlocuteur.",s:["Table ronde AE","Management du hive","Scribewave"]},
+  {tag:"Du feedback à la stratégie",h:"Transformer les retours du marché en playbook",p:"J'échangeais régulièrement avec le fondateur de Scribewave sur les réactions du marché et ce qu'elles impliquaient pour nous.",d:"Nous discutions des messages qui fonctionnaient et des nouvelles opportunités qui apparaissaient. J'ai appris à terminer le travail opérationnel tout en gardant du temps pour améliorer le moteur go-to-market.",s:["Scribewave"]},
+  {tag:"Autonomie",h:"Travailler en autonomie, sur le terrain",p:"Chez Scribewave, j'avais beaucoup de liberté et cela m'a plu.",d:"Je travaillais directement avec le fondateur et je décidais moi-même de l'emploi de mon temps. En dehors du travail, je construis mes propres outils, comme un scraper pour ma recherche d'appartement et un hub de productivité qui prend lui-même des actions en charge. La manière de travailler agile et concrète d'une startup m'a donné beaucoup d'énergie.",s:["Scribewave","Projets personnels"]},
+  {tag:"Santé",h:"Apprendre les soins de santé de près",p:"J'étudie le management des soins de santé et ma partenaire est médecin.",d:"En 2026, j'ai commencé le master en Management et Politique des Soins de Santé à la KU Leuven, en parallèle de mon travail. Ma partenaire est médecin, et j'entends donc beaucoup parler à la maison de la pression quotidienne sur les équipes cliniques. Ma première mission dans un contexte de soins était une plateforme de données pour Hospital Logistics. Je n'ai pas encore vendu à des hôpitaux.",s:["KU Leuven","Hospital Logistics"]}
+ ]},
+ exp:{eye:"Expérience", h:"Où je l'ai appris.", lead:"Choisissez un chapitre et ouvrez les lignes qui vous intéressent.",
+  tabs:[
+  {t:"Scribewave",h:"Scribewave",role:"Go-to-Market Lead (freelance) · déc. 2025 à mai 2026",intro:"Startup belge de transcription par IA. Six mois à la tête du go-to-market, en parallèle de mon travail chez AE.",items:[
+   ["Construction d'un moteur GTM AI-first","Automatisation de la prospection guidée par l'ICP, rédaction et relance d'e-mails, et intégration du flux de communication dans notre CRM."],
+   ["Présentations et démos","Présentation et démonstration du produit à des prospects individuels et à des groupes de prospects."],
+   ["Cold outreach jusqu'au bon interlocuteur","E-mails et appels à froid pour atteindre, dans chaque organisation, la personne concernée par le problème."],
+   ["Échanges stratégiques avec le fondateur","Des sessions régulières sur la réaction du marché à certains messages, ce que cela pouvait impliquer pour Scribewave et où se situaient les opportunités."],
+   ["Concilier opérations et améliorations","Mener le travail opérationnel à son terme (contacter les clients, organiser les démos, envoyer les rappels, suivre la satisfaction) tout en investissant du temps dans les bonnes améliorations du moteur."],
+   ["Ce que cela m'a apporté","J'ai trouvé cette manière de travailler agile et concrète très intéressante et stimulante. C'est la raison principale de ma candidature."]]},
+  {t:"AE · avant-vente & clients",h:"AE",role:"Consultant Data & IA · sept. 2023 à aujourd'hui",intro:"Cabinet de conseil belge en data & IA. Des rôles de stratégie et d'analyse chez les clients, avec une part croissante d'avant-vente et de contact client.",items:[
+   ["Une nouvelle offre, de l'idée à la vente","J'ai piloté la mise en place de l'offre de stratégie data & IA d'AE. Je l'ai présentée à des prospects et à des parties prenantes internes pour tester et ajuster le message. Elle est aujourd'hui vendue avec succès dans plusieurs missions."],
+   ["Table ronde pour 20 prospects prioritaires","Co-organisation d'une table ronde sur l'élaboration et l'exécution d'une stratégie IA au sein d'une organisation."],
+   ["Podcast d'entreprise sur l'IA responsable","Participation au podcast d'AE, sur le thème de l'IA responsable."],
+   ["Un lien personnel avec les clients","Dans chaque mission, j'accorde beaucoup d'importance au lien personnel avec le client. Cela crée de l'ouverture et de la crédibilité."],
+   ["Missions clients","Analyste IA, stratège IA, évaluateur en gouvernance des données et analyste de processus pour des clients comme AG Insurance, INEOS, Jan De Nul, D'Ieteren, COPRO et Hospital Logistics."]]},
+  {t:"AE · management du hive",h:"Hive Data & IA d'AE",role:"Learning & Development et Bench Manager · équipe de management · sept. 2025 à aujourd'hui",intro:"Plus d'un an de management actif d'une branche de 60 personnes, où je coordonne l'innovation des connaissances et gère la capacité des consultants entre deux missions.",items:[
+   ["Travailler entre les niveaux de stratégie","Recevoir les orientations stratégiques de la direction et les traduire pour ma propre équipe."],
+   ["Mesurer l'impact humain","Évaluer ce qu'une nouvelle initiative ou une décision stratégique signifie pour les personnes concernées, et adapter la communication en conséquence."],
+   ["Attentes claires, feedback régulier","Communiquer les attentes à mes pairs, donner et recevoir du feedback de manière récurrente."],
+   ["Prêter main-forte","Faire preuve de flexibilité et intervenir quand des collègues ont besoin d'aide."]]},
+  {t:"AFC",h:"Academics For Companies",role:"Administrateur, Technology Manager, Quality Supervisor · 2020 à 2025",intro:"Une organisation dirigée par des étudiants, avec un chiffre d'affaires à six chiffres, qui relie le monde académique et les entreprises.",items:[
+   ["Conseil d'administration","Trois ans au conseil d'administration de l'organisation."],
+   ["Équipe technologie","Direction de l'équipe technologie : données, RGPD et optimisation des processus."],
+   ["Système qualité","Mise en place d'un système qualité fondé sur les normes ISO."]]}
+ ]},
+ ai:{eye:"AI first", h:"Mon propre travail tourne à l'IA.", lead:"Des projets personnels que je construis pour résoudre mes propres problèmes. Je suis pragmatique et je pense d'abord à l'IA, et ces projets le montrent.",
+  live:"Construit", wip:"En cours", more:"Plus",
+  cards:[
+  {h:"Application de recherche d'appartement",p:"Parcourt des sites immobiliers trois fois par jour et m'envoie des alertes par e-mail.",d:"Je l'ai construite pour ma propre recherche, afin de ne plus devoir consulter les sites moi-même.",w:0},
+  {h:"Entrepôt de données hospitalier fictif",p:"Un entrepôt de données hospitalier d'exercice pour apprendre la terminologie des soins tout en progressant techniquement.",d:"En modélisant les données, j'apprends comment un hôpital décrit ses patients, ses séjours et ses activités de soins.",w:1},
+  {h:"Meeting brain",p:"Consolide et améliore le contexte de toutes mes notes de réunion.",d:"Les réunions sont transcrites, nettoyées et classées dans une base de connaissances consultable. Les décisions et les actions restent retrouvables des semaines plus tard.",w:0},
+  {h:"Hub de productivité",p:"Rassemble les actions de mes notes de réunion et d'autres sources sur un tableau kanban, et en prend une partie en charge lui-même.",d:"Le hub récupère les actions, les consolide et commence celles qu'il peut faire automatiquement, comme créer des présentations ou rédiger des messages.",w:0}
+ ]},
+ hc:{eye:"Santé", h:"Me rapprocher des soins.", lead:"Vendre aux hôpitaux est nouveau pour moi, alors j'apprends le secteur de plusieurs manières.",
+  whyh:"Pourquoi la santé", neth:"Où me croiser",
+  why:[
+   ["Master en management des soins de santé","Master en Management et Politique des Soins de Santé à la KU Leuven, commencé en 2026 en parallèle de mon travail. Je veux comprendre comment les soins sont organisés, financés et gouvernés."],
+   ["Une médecin à la maison","Ma partenaire est médecin. Nos conversations sur la réalité opérationnelle des hôpitaux sont à l'origine de ce changement de cap."],
+   ["Hospital Logistics","Ma première mission dans un contexte de soins : une nouvelle plateforme de données et un environnement de reporting pour un prestataire de logistique hospitalière."],
+   ["Entrepôt de données hospitalier fictif","Un projet personnel, en cours, pour apprendre la terminologie des soins par la pratique."]],
+  net:[
+   ["Vlerick Alumni Clubs","Actuellement en discussion pour rejoindre le comité de pilotage du Vlerick Healthcare Club."],
+   ["Événements du Wintercircus","Événements tech et startup à Gand."],
+   ["Bits in Bio","Communauté de personnes qui développent des logiciels dans la biotech."]]},
+ how:{eye:"Ma façon de travailler", h:"Ce que c'est de travailler avec moi.", lead:"Choisissez un trait pour voir ce que j'entends par là.",
+  chips:[
+   ["Concret","J'aime avoir rapidement une première version qui fonctionne. Chez Scribewave, j'ai fait moi-même les appels, les démos et l'automatisation."],
+   ["Proche du client","Dans mes missions, j'accorde beaucoup d'importance au lien personnel avec le client, car il crée de l'ouverture et de la crédibilité. J'apprécie donc beaucoup votre politique de travailler un jour par semaine à l'hôpital."],
+   ["Vrai joueur d'équipe","Je travaille mieux en équipe. Quand un collègue a besoin d'aide, je suis là."],
+   ["Pragmatique","Je commence par la solution la plus simple qui fonctionne et je l'améliore une fois qu'elle est utilisée."],
+   ["État d'esprit positif","En cold outreach, beaucoup d'e-mails et d'appels restent sans réponse. Je reste positif et je continue."],
+   ["Communication solide","J'ai co-organisé une table ronde, participé à un podcast, fait des démos pour des groupes de prospects et présenté au management. J'adapte le message aux personnes présentes."],
+   ["Ouvert au feedback direct","J'apprécie le feedback direct et j'en tiens compte. Dans mon rôle de management, je donne et je reçois du feedback de manière récurrente."],
+   ["Esprit critique","Je remets en question les messages, les chiffres et mes propres hypothèses. Les échanges avec le fondateur de Scribewave ont été un bon exercice pour cela."]]},
+ edu:{eye:"Formation & langues", h:"Parcours.",
+  items:[["2026 à 2028 · en cours","Master en Management et Politique des Soins de Santé","KU Leuven, en parallèle de mon travail."],["2022 à 2023","Master en Business Analytics & AI","Vlerick Business School."],["2017 à 2022","Master & Bachelor d'ingénieur de gestion","KU Leuven. Majeure Data Science, mineure People & Organisations."]],
+  langs:[["Néerlandais","langue maternelle"],["Anglais","courant"],["Français","niveau de base, j'y travaille activement depuis mon déménagement à Bruxelles"]]},
+ con:{h:"Ayons une conversation.", lead:"Votre agent m'a dit qu'une courte conversation en dit plus qu'un CV. Je suis d'accord, et je serais ravi de l'avoir.", li:"LinkedIn"},
+ foot:"Alexandre Montrieux · novembre 2026 · Une page de candidature personnelle, sans lien avec Mindoo. Fait par un humain, augmenté par l'IA. Mon français est encore en progrès : cette version a été relue avec l'aide de l'IA."
+}};
+
+var IDS=["fit","experience","ai","healthcare","how"];
+var S={lang:"en",fit:-1,tab:0,acc:{},ai:-1,why:0,chip:0,print:false};
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function num(i){return (i<10?"0":"")+i}
+function eyebrow(n,t){return '<div class="eyebrow"><span>'+num(n)+'</span>'+esc(t)+'</div>'}
+function det(html){return '<div class="detail"><div>'+html+'</div></div>'}
+function accRow(key,i,row){var k=key+":"+i,o=S.acc[k];return '<div class="acc'+(o?' open':'')+'"><button data-acc="'+k+'" aria-expanded="'+!!o+'"><span>'+esc(row[0])+'</span><span class="pm" aria-hidden="true">+</span></button>'+det('<p>'+esc(row[1])+'</p>')+'</div>'}
+
+function render(){
+ var c=C[S.lang];
+ document.documentElement.lang=S.lang; document.title=c.title;
+ document.getElementById("links").innerHTML=c.nav.map(function(n,i){return '<a href="#'+IDS[i]+'">'+esc(n)+'</a>'}).join("");
+ document.getElementById("navcta").textContent=c.cta;
+ document.getElementById("foot").textContent=c.foot;
+ [].forEach.call(document.querySelectorAll(".lang button"),function(b){b.setAttribute("aria-pressed",b.dataset.l===S.lang)});
+ var h='';
+ h+='<div class="hero" id="top"><div class="wrap"><p class="wink">'+esc(c.wink)+' <a href="https://mindoo.ai" target="_blank" rel="noopener">mindoo.ai</a> 😉</p><img class="avatar" src="'+PHOTO+'" alt="Alexandre Montrieux"><div><span class="pill"><b>'+esc(c.pillb)+'</b>'+esc(c.pill)+'</span></div><h1>'+esc(c.h1).replace(/(\S+-\S+)/g,'<span style="white-space:nowrap">$1</span>')+'</h1><p class="sub">'+esc(c.sub)+'</p><div class="cta"><a class="btn dark" href="#contact">'+esc(c.cta)+'</a><a class="btn" href="#fit">'+esc(c.cta2)+' <span class="ar">→</span></a></div><div class="strip">'+esc(c.strip)+'</div></div></div>';
+ // fit
+ h+='<section id="fit" class="alt"><div class="wrap">'+eyebrow(1,c.fit.eye)+'<h2>'+esc(c.fit.h)+'</h2><p class="lead">'+esc(c.fit.lead)+'</p><div class="grid">'+c.fit.cards.map(function(k,i){var o=S.fit===i;return '<button class="card'+(o?' open':'')+'" data-fit="'+i+'" aria-expanded="'+o+'"><span class="chead"><span class="blob" style="background:'+COL[i]+'"></span><span class="tag'+(i%2?'':' b')+'">'+esc(k.tag)+'</span></span><h3>'+esc(k.h)+'</h3><p>'+esc(k.p)+'</p>'+det('<p>'+esc(k.d)+'</p><span class="src">'+k.s.map(function(x){return '<span>'+esc(x)+'</span>'}).join("")+'</span>')+'<span class="more">'+esc(c.more)+' <span class="ch">→</span></span></button>'}).join("")+'</div><p class="hint">'+esc(c.hint)+'</p></div></section>';
+ // experience
+ h+='<section id="experience"><div class="wrap">'+eyebrow(2,c.exp.eye)+'<h2>'+esc(c.exp.h)+'</h2><p class="lead">'+esc(c.exp.lead)+'</p><div class="tabs" role="tablist">'+c.exp.tabs.map(function(x,i){return '<button role="tab" data-tab="'+i+'" aria-selected="'+(S.tab===i)+'">'+esc(x.t)+'</button>'}).join("")+'</div>'+(S.print?c.exp.tabs.map(function(x,i){return i}):[S.tab]).map(function(ti){var t=c.exp.tabs[ti];return '<div class="panel" role="tabpanel"><div><h3>'+esc(t.h)+'</h3><div class="role">'+esc(t.role)+'</div><p class="intro">'+esc(t.intro)+'</p></div><div>'+t.items.map(function(r,i){return accRow("t"+ti,i,r)}).join("")+'</div></div>'}).join("")+'</div></section>';
+ // ai
+ h+='<section id="ai" class="alt"><div class="wrap">'+eyebrow(3,c.ai.eye)+'<h2>'+esc(c.ai.h)+'</h2><p class="lead">'+esc(c.ai.lead)+'</p><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr))">'+c.ai.cards.map(function(k,i){var o=S.ai===i;return '<button class="card'+(o?' open':'')+'" data-ai="'+i+'" aria-expanded="'+o+'"><span class="chead"><span class="blob" style="background:'+COL[(i+2)%6]+'"></span><span class="tag'+(k.w?'':' b')+'">'+esc(k.w?c.ai.wip:c.ai.live)+'</span></span><h3>'+esc(k.h)+'</h3><p>'+esc(k.p)+'</p>'+det('<p>'+esc(k.d)+'</p>')+'<span class="more">'+esc(c.ai.more)+' <span class="ch">→</span></span></button>'}).join("")+'</div></div></section>';
+ // healthcare
+ h+='<section id="healthcare"><div class="wrap">'+eyebrow(4,c.hc.eye)+'<h2>'+esc(c.hc.h)+'</h2><p class="lead">'+esc(c.hc.lead)+'</p><div class="two"><div class="box"><h3>'+esc(c.hc.whyh)+'</h3>'+c.hc.why.map(function(r,i){return accRow("why",i,r)}).join("")+'</div><div class="box"><h3>'+esc(c.hc.neth)+'</h3><ul class="net">'+c.hc.net.map(function(r,i){return '<li><i style="background:'+COL[i*2]+'"></i><span><b>'+esc(r[0])+'</b><small>'+esc(r[1])+'</small></span></li>'}).join("")+'</ul></div></div></div></section>';
+ // how
+ h+='<section id="how" class="alt"><div class="wrap">'+eyebrow(5,c.how.eye)+'<h2>'+esc(c.how.h)+'</h2><p class="lead">'+esc(c.how.lead)+'</p><div class="chips">'+c.how.chips.map(function(r,i){return '<button data-chip="'+i+'" aria-pressed="'+(S.chip===i)+'">'+esc(r[0])+'</button>'}).join("")+'</div>'+(S.print?'<div class="quote all">'+c.how.chips.map(function(r){return '<p><b>'+esc(r[0])+'.</b> '+esc(r[1])+'</p>'}).join("")+'</div>':'<div class="quote" aria-live="polite">'+esc(c.how.chips[S.chip][1])+'</div>')+'</div></section>';
+ // edu
+ h+='<section id="background"><div class="wrap">'+eyebrow(6,c.edu.eye)+'<h2>'+esc(c.edu.h)+'</h2><div class="edu">'+c.edu.items.map(function(r){return '<div class="box"><div class="yr">'+esc(r[0])+'</div><h3>'+esc(r[1])+'</h3><p>'+esc(r[2])+'</p></div>'}).join("")+'</div><div class="langs">'+c.edu.langs.map(function(r){return '<span>'+esc(r[0])+' <em>· '+esc(r[1])+'</em></span>'}).join("")+'</div></div></section>';
+ // contact
+ h+='<section id="contact" class="contact"><div class="wrap"><h2>'+esc(c.con.h)+'</h2><p class="lead">'+esc(c.con.lead)+'</p><div class="cl"><a class="btn dark" href="mailto:'+MAIL+'">'+MAIL+'</a><a class="btn" href="tel:'+TEL.replace(/ /g,"")+'">'+TEL+'</a><a class="btn" href="'+LI+'" target="_blank" rel="noopener">'+c.con.li+' <span class="ar">↗</span></a></div></div></section>';
+ document.getElementById("app").innerHTML=h;
+}
+
+document.addEventListener("click",function(e){
+ var b=e.target.closest("button"); if(!b) return; var d=b.dataset, y=window.scrollY;
+ if(d.l){S.lang=d.l; try{localStorage.setItem("cv-lang",d.l)}catch(_){}; try{history.replaceState(null,"","?lang="+d.l+location.hash)}catch(_){}}
+ else if(d.fit!==undefined){S.fit=S.fit===+d.fit?-1:+d.fit}
+ else if(d.ai!==undefined){S.ai=S.ai===+d.ai?-1:+d.ai}
+ else if(d.tab!==undefined){S.tab=+d.tab}
+ else if(d.acc){S.acc[d.acc]=!S.acc[d.acc]}
+ else if(d.chip!==undefined){S.chip=+d.chip}
+ else return;
+ // toggle in place where possible so the open/close animates
+ if(d.fit!==undefined||d.ai!==undefined){var key=d.fit!==undefined?"fit":"ai";[].forEach.call(document.querySelectorAll("[data-"+key+"]"),function(x){var o=S[key]===+x.dataset[key];x.classList.toggle("open",o);x.setAttribute("aria-expanded",o)});return}
+ if(d.acc){var p=b.parentNode;p.classList.toggle("open",!!S.acc[d.acc]);b.setAttribute("aria-expanded",!!S.acc[d.acc]);return}
+ render(); window.scrollTo(0,y);
+});
+
+window.addEventListener("beforeprint",function(){S.print=true;render()});
+window.addEventListener("afterprint",function(){S.print=false;render()});
+(function(){
+ var l=null; try{l=new URLSearchParams(location.search).get("lang")}catch(_){}
+ if(!C[l]){try{l=localStorage.getItem("cv-lang")}catch(_){}}
+ S.lang=C[l]?l:"en"; S.acc["t0:0"]=true; S.acc["why:0"]=true; render();
+})();
+</script>
+</body>
+</html>
